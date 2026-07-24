@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Rap 科普短视频生成器</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <main class="app-shell">
+      <section class="workspace">
+        <aside class="panel controls-panel">
+          <div class="brand-row">
+            <div>
+              <p class="eyebrow">16:9 MP4 Export</p>
+              <h1>Rap 科普短视频生成器</h1>
+            </div>
+            <span class="status-dot" id="statusDot" title="Ready"></span>
+          </div>
+
+          <label class="field">
+            <span>输入歌词或主题句</span>
+            <textarea id="lyricsInput" spellcheck="false">塑料瓶别乱扔
+太阳一晒会变形
+回收之后再加工
+节能减排更轻松</textarea>
+          </label>
+
+          <div class="form-grid">
+            <label class="field full">
+              <span>视频标题</span>
+              <input id="titleInput" value="一分钟讲懂身边科学" />
+            </label>
+            <label class="field full">
+              <span>代理服务商</span>
+              <select id="providerInput">
+                <option value="sunoapi">sunoapi.org</option>
+                <option value="sunoboard">api.sunoboard.com</option>
+                <option value="custom">自定义兼容接口</option>
+              </select>
+            </label>
+            <label class="field full">
+              <span>API 地址</span>
+              <input id="apiBaseInput" value="https://api.sunoapi.org" />
+            </label>
+            <label class="field full">
+              <span>API Token</span>
+              <input id="apiKeyInput" placeholder="填写第三方代理服务商的 API Key" />
+            </label>
+            <label class="field full">
+              <span>音乐风格</span>
+              <input id="musicStyleInput" value="Chinese rap, catchy hip hop, clear vocal, science education" />
+            </label>
+            <label class="field full">
+              <span>音乐测试开关</span>
+              <div class="toggle">
+                <input id="testModeEnabledInput" type="checkbox" checked />
+                <span>测试模式：不调用音乐 API，后续可直接关闭</span>
+              </div>
+            </label>
+            <label class="field full">
+              <span>图像 API Key</span>
+              <input id="imageApiKeyInput" placeholder="填写图像服务商 API Key（见下方选择器说明）" />
+            </label>
+            <label class="field full">
+              <span>图像服务商</span>
+              <select id="imageProviderInput">
+                <option value="rightcode">Right Code（GPT Image 2，需要付费）</option>
+                <option value="agnes">Agnes AI（免费额度，推荐）</option>
+              </select>
+            </label>
+            <label class="field full">
+              <span>已有音频 URL</span>
+              <input id="manualAudioUrlInput" placeholder="可选：粘贴已生成的 mp3/wav/m4a 地址，只用于对齐和导出，不会改歌词" />
+            </label>
+            <label class="field full">
+              <span>本地音频文件</span>
+              <input id="audioFileInput" type="file" accept="audio/*" />
+            </label>
+            <label class="field">
+              <span>BPM</span>
+              <input id="bpmInput" type="number" min="70" max="180" value="96" />
+            </label>
+            <label class="field">
+              <span>每句时长</span>
+              <input id="secondsInput" type="number" min="2" max="8" step="0.5" value="3.5" />
+            </label>
+            <label class="field">
+              <span>字幕延迟</span>
+              <input id="syncOffsetInput" type="number" min="-3" max="3" step="0.1" value="0" />
+            </label>
+            <label class="field full">
+              <span>底部文案</span>
+              <div class="inline-row">
+                <label class="toggle">
+                  <input id="bottomTickerEnabledInput" type="checkbox" checked />
+                  <span>显示</span>
+                </label>
+                <input
+                  id="bottomTickerTextInput"
+                  value="可自定义底部文案"
+                  placeholder="关闭时不显示，开启后可自定义内容"
+                />
+              </div>
+            </label>
+            <label class="field">
+              <span>每张图歌词行数</span>
+              <select id="linesPerImageInput">
+                <option value="1">1 行</option>
+                <option value="2" selected>2 行</option>
+              </select>
+            </label>
+            <label class="field">
+              <span>画面风格</span>
+              <select id="styleInput">
+                <option value="show">爆款栏目包装</option>
+                <option value="neon">霓虹实验室</option>
+                <option value="paper">科普手账</option>
+                <option value="studio">新闻演播室</option>
+              </select>
+            </label>
+          </div>
+
+          <div class="button-row">
+            <button id="generateBtn" class="primary">生成分镜</button>
+            <button id="generateImageBtn">生成画面</button>
+            <button id="songBtn">生成说唱</button>
+            <button id="previewBtn">预览播放</button>
+            <button id="exportBtn">导出 MP4</button>
+          </div>
+
+          <audio id="songPlayer" controls></audio>
+
+          <p class="hint" id="exportHint">
+            导出会先调用 Suno API 生成带人声的 rap，再把画面和音频合成为 16:9 视频。
+          </p>
+        </aside>
+
+        <section class="stage-panel">
+          <canvas id="videoCanvas" width="1920" height="1080" aria-label="video preview"></canvas>
+          <div class="timeline" id="timeline"></div>
+        </section>
+      </section>
+    </main>
+
+    <script src="./app.js"></script>
+  </body>
+</html>

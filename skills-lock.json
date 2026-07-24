@@ -1,0 +1,11 @@
+{
+  "version": 1,
+  "skills": {
+    "qiaomu-icon-generator": {
+      "source": "joeseesun/qiaomu-icon-generator",
+      "sourceType": "github",
+      "skillPath": "SKILL.md",
+      "computedHash": "6c24f6cd0903d583fdd4615880dcd687df091693b9be3396c30f2a94e893169d"
+    }
+  }
+}
